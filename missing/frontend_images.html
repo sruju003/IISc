@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Responsive Vertical Tabs</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {font-family: "Lato", sans-serif; padding: 10px;}
+    .tab {height: auto; min-height: 10px; }
+    .tab button {padding: 12px 8px; font-size: 16px;}
+    .tabcontent {
+    padding: 30px;
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    display: none; /* Initially hidden */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+    .image-container {max-height: 400px; overflow-y: auto;}
+    .image-container img {max-width: 100%; margin-bottom: 10px;}
+    .submit-btn {margin-top: 20px;}
+
+
+
+
+    .loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }}
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="loader" id="loader"></div>
+
+  <h2 class="mt-3">Responsive Vertical Tabs</h2>
+  <p>Enter text with breakpoints in the textarea:</p>
+  <textarea id="textInput" class="form-control mb-3" rows="10"></textarea>
+  <button onclick="generateTabs()" class="btn btn-primary mb-3" style="background-color: #ffffff; color: #000000; border-style: solid;">Generate Tabs</button>
+
+  <div class="tab" id="tabContainer">
+    <!-- Tabs will be dynamically generated here -->
+  </div>
+
+  <button onclick="submitData()" class="btn btn-success submit-btn" style="background-color: #EB4D55;">Submit</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+  function openTab(evt, tabIndex) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabIndex).style.display = "block";
+    evt.currentTarget.classList.add("active");
+  }
+
+  function generateTabs() {
+    // Check if tabs are already generated
+    if (document.getElementById("tabContainer").children.length > 0) {
+      alert("Tabs are already generated. Please submit or refresh the page.");
+      return;
+    }
+
+    var textInput = document.getElementById("textInput").value;
+    var breakpoints = ["$#%&*"];
+
+    var parts = splitText(textInput, breakpoints);
+
+    var tabContainer = document.getElementById("tabContainer");
+
+    parts.forEach(function(part, index) {
+      var button = document.createElement("button");
+      button.className = "tablinks btn btn-light";
+      button.textContent = "Part " + (index + 1);
+      button.addEventListener("click", function(evt) {
+        openTab(evt, "Part" + (index + 1));
+      });
+      tabContainer.appendChild(button);
+
+      var tabContent = document.createElement("div");
+      tabContent.className = "tabcontent";
+      tabContent.id = "Part" + (index + 1);
+
+      var title = document.createElement("h3");
+      title.textContent = "Part " + (index + 1);
+      tabContent.appendChild(title);
+
+      var content = document.createElement("p");
+      content.innerHTML = part;
+      tabContent.appendChild(content);
+
+      var imageContainer = document.createElement("div");
+      imageContainer.className = "image-container";
+      imageContainer.innerHTML = "<h3>Images</h3>";
+
+      var imageInput = document.createElement("input");
+      imageInput.type = "file";
+      imageInput.accept = "image/*";
+      imageInput.addEventListener("change", function() {
+        previewImage(this, imageContainer);
+      });
+
+      imageContainer.appendChild(imageInput);
+
+      var previewContainer = document.createElement("div");
+      previewContainer.id = "previewContainer" + (index + 1);
+      imageContainer.appendChild(previewContainer);
+
+      tabContent.appendChild(imageContainer);
+
+      document.body.appendChild(tabContent);
+    });
+
+    document.getElementsByClassName("tablinks")[0].click();
+  }
+
+  function splitText(text, breakpoints) {
+    var parts = [text];
+    breakpoints.forEach(function(breakpoint) {
+      var newParts = [];
+      parts.forEach(function(part) {
+        newParts = newParts.concat(part.split(breakpoint));
+      });
+      parts = newParts;
+    });
+    return parts.filter(function(part) {
+      return part.trim() !== '';
+    });
+  }
+
+  function previewImage(input, previewContainer) {
+    var files = input.files;
+
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        var img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.maxWidth = "20%";
+        img.style.height = "auto";
+        previewContainer.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  
+
+  function submitData() {
+    // Show loader
+    document.getElementById("loader").style.display = "block";
+
+    // Initialize FormData
+    var formData = new FormData();
+
+    // Append text data
+    formData.append('textInput', document.getElementById("textInput").value);
+
+    // Append images from each tab : basically mapping images to a tab number like dictionaries
+    for (var i = 1; i <= document.getElementById("tabContainer").children.length; i++) {
+        // Assuming each 'previewContainer' + i contains the file input(s)
+        var imageInputs = document.getElementById("previewContainer" + i).querySelectorAll("input[type='file']");
+
+        // Iterate over each file input in the current tab
+        for (var j = 0; j < imageInputs.length; j++) {
+            // Check if any file is selected
+            if (imageInputs[j].files.length > 0) {
+                // Append each file to formData; Note: Supports single file per input
+                for (var fileIndex = 0; fileIndex < imageInputs[j].files.length; fileIndex++) {
+                    // Create a unique name for each file to avoid overwriting on the server-side
+                    formData.append(`imagesPart${i}[]`, imageInputs[j].files[fileIndex], imageInputs[j].files[fileIndex].name);
+                }
+            }
+        }
+    }
+
+    // AJAX request with FormData
+    fetch('/submit-data', {
+        method: 'POST',
+        body: formData, // FormData will be used directly, no need to set Content-Type header
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        document.getElementById("loader").style.display = "none"; // Hide loader once task is completed
+        // Optionally, clear the form or give user feedback
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        document.getElementById("loader").style.display = "none"; // Hide loader once task is completed
+        // Handle errors or show feedback to the user
+    });
+}
+
+
+
+</script>
+</body>
+</html>
