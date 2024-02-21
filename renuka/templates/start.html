@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Invitation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .button-outline {
+            border: 2px solid;
+            background: transparent;
+            border-radius: 20px; /* Moved from inline style to here for cleanliness */
+        }
+        .vertical-center {
+            min-height: 100vh; /* Minimum height as viewport height */
+            display: flex;
+            align-items: center; /* Vertical alignment */
+        }
+        .icon-text {
+            color: #16c79e; 
+            font-weight: 700;
+        }
+        /* Additional style for heading to emphasize */
+        .main-heading {
+            font-weight: 900;
+        }
+        /* Style adjustments for subheading */
+        .sub-heading {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center vertical-center">
+            <div class="col-md-8 text-center">
+                <br>
+                <h1 class="main-heading">LIVING IN MOTION</h1>
+                <h5 class="my-3 sub-heading">crafting spaces to elevate your daily rhythms</h5>
+                <p class="mb-5">
+                    Participate in our research survey to share insights on your daily routine activities!
+                    Your valuable input will help shape the design of residential living spaces. We are keen to
+                    understand your habits and preferences to create more personalized and comfortable
+                    environments. Your responses will be crucial for advancing our research in optimizing
+                    residential spaces for a better living experience. Thank you for being a part of this exciting
+                    endeavour!
+                </p>
+                <button class="btn button-outline px-5 py-3" type="button">
+                <a href="/survey">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/ghhwiltn.json"
+                        trigger="loop"
+                        delay="2000"
+                        stroke="light"
+                        colors="primary:#121331,secondary:#16c79e"
+                        style="width:100px;height:100px">
+                    </lord-icon>
+                    <div class="icon-text">Start the Survey</div>
+                </a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
