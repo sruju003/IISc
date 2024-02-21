@@ -13,7 +13,7 @@ def index():
 
 @app.route('/survey')
 def survey():
-    return render_template('pleasefinalplease.html')
+    return render_template('form.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
