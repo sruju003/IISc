@@ -1,0 +1,19 @@
+Steps for BIM RAG
+
+Step 1:
+Run BIM Viewer : Take a snapshot
+
+Step 2: 
+Run the screenshot in the text recognizer : https://colab.research.google.com/drive/16VM5aPNxpyo4IUAy9DbH11gOQVwroEz5
+copy text to pdf
+
+Step 3 :
+Add other content to pdf and download it
+
+Step 4 :
+submit pdf to RAG : https://colab.research.google.com/drive/1rzE_Cb_uP9a7UICfMVvvXd8vkiN06x9s
+https://colab.research.google.com/drive/1n-W54nSvJyT5oibyGfI_C75JXpEZTmw1
+
+Step 5 :
+Assign role to RAG and get the content based on questions 
+
